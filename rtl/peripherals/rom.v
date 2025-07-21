@@ -1,6 +1,5 @@
-module Rom #(
-	parameter D = 16,
-	parameter A = 8)
+module Rom #(parameter 		   D = 16,
+			 parameter		   A = 8)
 	 		(input  		   clk,
 	  		 input     [A-1:0] addr,
 	  		 output    [D-1:0] data_out);

@@ -85,8 +85,49 @@ r1
 !s85 0
 31
 !s108 1753056537.000000
-!s107 tests/unit_tests/rom_tb.v|
-Z10 !s90 -reportprogress|300|tests/unit_tests/rom_tb.v|
+Z10 !s107 tests/unit_tests/rom_tb.v|
+Z11 !s90 -reportprogress|300|tests/unit_tests/rom_tb.v|
+!i113 1
+R7
+vRegisterFile
+!s110 1753068815
+!i10b 1
+!s100 ;nFQ:N7o5=N@P@hD>^gP]0
+I?ej@jiH8i=;L9]PE<2`]H3
+R1
+R0
+w1753068782
+8rtl/core/register_file.v
+Frtl/core/register_file.v
+L0 1
+R4
+r1
+!s85 0
+31
+!s108 1753068815.000000
+!s107 rtl/core/register_file.v|
+!s90 -reportprogress|300|rtl/core/register_file.v|
+!i113 1
+R7
+n@register@file
+vrf_tb
+!s110 1753073394
+!i10b 1
+!s100 3X@[ofhe[dg^eUMao[a[71
+I9ReJLj^[@oN[jgo=l4PG]3
+R1
+R0
+w1753073387
+8tests/unit_tests/rf_tb.v
+Ftests/unit_tests/rf_tb.v
+L0 2
+R4
+r1
+!s85 0
+31
+!s108 1753073393.000000
+!s107 tests/unit_tests/rf_tb.v|
+!s90 -reportprogress|300|tests/unit_tests/rf_tb.v|
 !i113 1
 R7
 vRom
@@ -126,8 +167,8 @@ r1
 !s85 0
 31
 !s108 1753062203.000000
-!s107 tests/unit_tests/rom_tb.v|
 R10
+R11
 !i113 1
 R7
 vtestbench
