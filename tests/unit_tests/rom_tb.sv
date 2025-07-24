@@ -1,9 +1,8 @@
-
 module rom_tb();
 	
 	reg         clk = 0; 
 	reg  [7:0]  addr;
-	wire [15:0] data_out; 
+	Instruction data_out; 
 
 	Rom dut (clk, addr, data_out);
 

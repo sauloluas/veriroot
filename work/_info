@@ -8,38 +8,361 @@ z2
 !i10f 100
 cModel Technology
 Z0 dE:/Documentos/Testes/veriroot
+vAlu
+Z1 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
+Z2 DXx4 work 3 alu 0 22 <3CRoRiQ332RX]R2?[n243
+DXx4 work 11 alu_sv_unit 0 22 V_^ZGh3kYn_2=A@`?`He`3
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+r1
+!s85 0
+31
+!i10b 1
+!s100 =;;T:N3KfUN4n4Jj:?M;E1
+IK>VCTBT1GQVZ3k>_V27c]2
+!s105 alu_sv_unit
+S1
+R0
+Z4 w1753303489
+Z5 8rtl/core/alu.sv
+Z6 Frtl/core/alu.sv
+L0 3
+Z7 OV;L;10.5b;63
+Z8 !s108 1753304466.000000
+Z9 !s107 rtl/core/alu.sv|
+Z10 !s90 -reportprogress|300|rtl/core/alu.sv|
+!i113 1
+Z11 tCvgOpt 0
+n@alu
+Xalu
+R1
+!s110 1753214746
+!i10b 1
+!s100 VPh[<jC0[hVhF9aQNk5P13
+I<3CRoRiQ332RX]R2?[n243
+V<3CRoRiQ332RX]R2?[n243
+S1
+R0
+w1753214724
+Z12 8include/alu.svh
+Z13 Finclude/alu.svh
+L0 1
+R7
+r1
+!s85 0
+31
+!s108 1753214746.000000
+Z14 !s107 include/alu.svh|
+Z15 !s90 -reportprogress|300|include/alu.svh|
+!i113 1
+R11
+Xalu_sv_unit
+R1
+R2
+VV_^ZGh3kYn_2=A@`?`He`3
+r1
+!s85 0
+31
+!i10b 1
+!s100 _UMR1b4`2V1fR8T:S8>6A2
+IV_^ZGh3kYn_2=A@`?`He`3
+!i103 1
+S1
+R0
+R4
+R5
+R6
+L0 1
+R7
+R8
+R9
+R10
+!i113 1
+R11
+Xalu_svh_unit
+R1
+!s110 1753209830
+!i10b 1
+!s100 >MXU;@2LG_:LnhW:cKhF01
+I8Kf_jJ3TSY:8lUghMOjP>2
+V8Kf_jJ3TSY:8lUghMOjP>2
+!i103 1
+S1
+R0
+w1753209827
+R12
+R13
+L0 1
+R7
+r1
+!s85 0
+31
+!s108 1753209830.000000
+R14
+R15
+!i113 1
+R11
+valu_tb
+R1
+R2
+!s110 1753215095
+!i10b 1
+!s100 m]bZ[LA3SQedP0__lz1c70
+I@G9N17QHAZz?KG20jG;NB1
+R3
+!s105 alu_tb_sv_unit
+S1
+R0
+w1753215092
+8tests/unit_tests/alu_tb.sv
+Ftests/unit_tests/alu_tb.sv
+L0 1
+R7
+r1
+!s85 0
+31
+!s108 1753215095.000000
+!s107 tests/unit_tests/alu_tb.sv|
+!s90 -reportprogress|300|tests/unit_tests/alu_tb.sv|
+!i113 1
+R11
+vCounterRegister
+!s110 1753110457
+!i10b 1
+!s100 >SPd`VL;7g<md^Gzh[Ae33
+IZF6K3n0HZRozQ@4kW;;]g0
+R3
+R0
+w1753110433
+8rtl/core/counter_register.v
+Frtl/core/counter_register.v
+L0 1
+R7
+r1
+!s85 0
+31
+!s108 1753110457.000000
+!s107 rtl/core/counter_register.v|
+!s90 -reportprogress|300|rtl/core/counter_register.v|
+!i113 1
+R11
+n@counter@register
+vcr_tb
+!s110 1753109147
+!i10b 1
+!s100 j>]LQfYIDC[aB2YfWCnSz0
+Ia]H8??J5CfVBZ0P>A]2B60
+R3
+R0
+w1753109132
+8tests/unit_tests/cr_tb.v
+Ftests/unit_tests/cr_tb.v
+L0 1
+R7
+r1
+!s85 0
+31
+!s108 1753109147.000000
+!s107 tests/unit_tests/cr_tb.v|
+!s90 -reportprogress|300|tests/unit_tests/cr_tb.v|
+!i113 1
+R11
+Xctrl
+R1
+!s110 1753309556
+!i10b 1
+!s100 bW_oH4oRP6klgDjmJ4CSk1
+ICXaS[c2:ASoZA]zJ95d]71
+VCXaS[c2:ASoZA]zJ95d]71
+S1
+R0
+w1753306566
+8include/ctrl.svh
+Finclude/ctrl.svh
+L0 1
+R7
+r1
+!s85 0
+31
+!s108 1753309556.000000
+!s107 include/ctrl.svh|
+!s90 -reportprogress|300|include/ctrl.svh|
+!i113 1
+R11
+Xdata_path_sv_unit
+R1
+R2
+Z16 DXx4 work 4 ctrl 0 22 CXaS[c2:ASoZA]zJ95d]71
+V>ef0mBBG`KzPfTkn>?M]b1
+r1
+!s85 0
+31
+!i10b 1
+!s100 >m>TlaAIndl2]Q_nj@6=Z0
+I>ef0mBBG`KzPfTkn>?M]b1
+!i103 1
+S1
+R0
+Z17 w1753326652
+Z18 8rtl/core/data_path.sv
+Z19 Frtl/core/data_path.sv
+L0 1
+R7
+Z20 !s108 1753326682.000000
+Z21 !s107 rtl/core/data_path.sv|
+Z22 !s90 -reportprogress|300|rtl/core/data_path.sv|
+!i113 1
+R11
+vDataPath
+R1
+R2
+R16
+DXx4 work 17 data_path_sv_unit 0 22 >ef0mBBG`KzPfTkn>?M]b1
+R3
+r1
+!s85 0
+31
+!i10b 1
+!s100 <>_UGJH<Y4]m^mlIIgSP_2
+I8B:;z_bXHd2VDg75B73^41
+!s105 data_path_sv_unit
+S1
+R0
+R17
+R18
+R19
+L0 4
+R7
+R20
+R21
+R22
+!i113 1
+R11
+n@data@path
+Xdefs
+R1
+!s110 1753209832
+!i10b 1
+!s100 o[8fbEAZkjC:R:iiA8QMc1
+IXSIQMKjU0S<0[HH:oM1C;1
+VXSIQMKjU0S<0[HH:oM1C;1
+S1
+R0
+w1753209807
+8include/defs.svh
+Finclude/defs.svh
+L0 1
+R7
+r1
+!s85 0
+31
+!s108 1753209832.000000
+!s107 include/defs.svh|
+!s90 -reportprogress|300|include/defs.svh|
+!i113 1
+R11
+vdp_tb
+R1
+R2
+R16
+!s110 1753327602
+!i10b 1
+!s100 Pz`N5blBf_b@AdK2[c3JC1
+IBD9nQZ?zFLZXiI?BQK<D?3
+R3
+!s105 dp_tb_sv_unit
+S1
+R0
+w1753327592
+8tests/integration_tests/dp_tb.sv
+Ftests/integration_tests/dp_tb.sv
+L0 1
+R7
+r1
+!s85 0
+31
+!s108 1753327602.000000
+!s107 tests/integration_tests/dp_tb.sv|
+!s90 -reportprogress|300|tests/integration_tests/dp_tb.sv|
+!i113 1
+R11
+Xinstruction
+R1
+!s110 1753140683
+!i10b 1
+!s100 Eh^aZSIJ`Y0j2[_GDIcz>2
+IF?@[1@f[=Q0VCS0:9R4982
+VF?@[1@f[=Q0VCS0:9R4982
+S1
+R0
+w1753140640
+8include/instruction.svh
+Finclude/instruction.svh
+L0 1
+R7
+r1
+!s85 0
+31
+!s108 1753140683.000000
+!s107 include/instruction.svh|
+!s90 -reportprogress|300|include/instruction.svh|
+!i113 1
+R11
+vip_im_tb
+R1
+Z23 DXx4 work 11 instruction 0 22 F?@[1@f[=Q0VCS0:9R4982
+!s110 1753140780
+!i10b 1
+!s100 ;f18=OoKkK:i:14e3z51C0
+IBZJm]BU=cI<]4hZ;D_bUB0
+R3
+!s105 ip_im_tb_sv_unit
+S1
+R0
+w1753140772
+8tests/integration_tests/ip_im_tb.sv
+Ftests/integration_tests/ip_im_tb.sv
+L0 1
+R7
+r1
+!s85 0
+31
+!s108 1753140779.000000
+!s107 tests/integration_tests/ip_im_tb.sv|
+!s90 -reportprogress|300|tests/integration_tests/ip_im_tb.sv|
+!i113 1
+R11
 vmem
 !s110 1752971596
 !i10b 1
 !s100 OCJdZoFl^LbdjBlDZWGG;2
 IajhI_Mo18F@9UKJ@T1SfY2
-Z1 VDg1SIo80bB@j0V0VzS_@n1
+R3
 R0
 w1752971581
-Z2 8rtl/peripherals/mem.v
-Z3 Frtl/peripherals/mem.v
+Z24 8rtl/peripherals/mem.v
+Z25 Frtl/peripherals/mem.v
 L0 1
-Z4 OV;L;10.5b;63
+R7
 r1
 !s85 0
 31
 !s108 1752971596.000000
-Z5 !s107 rtl/peripherals/mem.v|
-Z6 !s90 -reportprogress|300|rtl/peripherals/mem.v|
+Z26 !s107 rtl/peripherals/mem.v|
+Z27 !s90 -reportprogress|300|rtl/peripherals/mem.v|
 !i113 1
-Z7 tCvgOpt 0
+R11
 vmem_tb
 !s110 1752971604
 !i10b 1
 !s100 ^_[>CTV83mzIXLf?`WjlL2
 ICUL2alM_1YfQ`@?TOoI]03
-R1
+R3
 R0
 w1752971584
 8tests/unit_tests/mem_tb.v
 Ftests/unit_tests/mem_tb.v
 L0 2
-R4
+R7
 r1
 !s85 0
 31
@@ -47,81 +370,87 @@ r1
 !s107 tests/unit_tests/mem_tb.v|
 !s90 -reportprogress|300|tests/unit_tests/mem_tb.v|
 !i113 1
-R7
+R11
 vRam
-!s110 1753018137
-!i10b 1
-!s100 Pb?D0HacP8<L83g6PCP170
-Ic=j[gXR<@DYf]f4439VD80
 R1
+!s110 1753110844
+!i10b 1
+!s100 ]D;DKRBFmD6k1Bg^32@gG0
+IKBh[oiaWch<W6FJ3Qc6Kd0
+R3
+!s105 ram_sv_unit
+S1
 R0
 w1753018131
-8rtl/peripherals/ram.v
-Frtl/peripherals/ram.v
+8rtl/peripherals/ram.sv
+Frtl/peripherals/ram.sv
 L0 1
-R4
+R7
 r1
 !s85 0
 31
-!s108 1753018136.000000
-!s107 rtl/peripherals/ram.v|
-!s90 -reportprogress|300|rtl/peripherals/ram.v|
+!s108 1753110843.000000
+!s107 rtl/peripherals/ram.sv|
+!s90 -reportprogress|300|rtl/peripherals/ram.sv|
 !i113 1
-R7
+R11
 n@ram
 vram_tb
-!s110 1753056537
-!i10b 1
-!s100 <`k659lo?T2MO9:@N^6571
-I<;nNTa>Vb4YH:N[NoWb]=3
 R1
+!s110 1753110860
+!i10b 1
+!s100 Vhk=Mb7FDAS2SN7XM]hOm2
+ILHK?6RZQKzUGPZ[U:7<6@0
+R3
+!s105 ram_tb_sv_unit
+S1
 R0
-w1753056534
-Z8 8tests/unit_tests/rom_tb.v
-Z9 Ftests/unit_tests/rom_tb.v
+w1752976145
+8tests/unit_tests/ram_tb.sv
+Ftests/unit_tests/ram_tb.sv
 L0 2
-R4
+R7
 r1
 !s85 0
 31
-!s108 1753056537.000000
-Z10 !s107 tests/unit_tests/rom_tb.v|
-Z11 !s90 -reportprogress|300|tests/unit_tests/rom_tb.v|
+!s108 1753110860.000000
+!s107 tests/unit_tests/ram_tb.sv|
+!s90 -reportprogress|300|tests/unit_tests/ram_tb.sv|
 !i113 1
-R7
+R11
 vRegisterFile
-!s110 1753068815
+!s110 1753304472
 !i10b 1
-!s100 ;nFQ:N7o5=N@P@hD>^gP]0
-I?ej@jiH8i=;L9]PE<2`]H3
-R1
+!s100 ieH?E@oOP313A=WCzVfQ;2
+I5b@U[L;z^[b?9O=XJ78[;2
+R3
 R0
-w1753068782
+w1753301809
 8rtl/core/register_file.v
 Frtl/core/register_file.v
 L0 1
-R4
+R7
 r1
 !s85 0
 31
-!s108 1753068815.000000
+!s108 1753304471.000000
 !s107 rtl/core/register_file.v|
 !s90 -reportprogress|300|rtl/core/register_file.v|
 !i113 1
-R7
+R11
 n@register@file
 vrf_tb
 !s110 1753073394
 !i10b 1
 !s100 3X@[ofhe[dg^eUMao[a[71
 I9ReJLj^[@oN[jgo=l4PG]3
-R1
+R3
 R0
 w1753073387
 8tests/unit_tests/rf_tb.v
 Ftests/unit_tests/rf_tb.v
 L0 2
-R4
+R7
 r1
 !s85 0
 31
@@ -129,65 +458,95 @@ r1
 !s107 tests/unit_tests/rf_tb.v|
 !s90 -reportprogress|300|tests/unit_tests/rf_tb.v|
 !i113 1
-R7
-vRom
-!s110 1753062196
-!i10b 1
-!s100 ;OSAm2:T:Wf6d^?7fcIkT2
-INP;?d86FR2[o]jLW?8NHL1
-R1
-R0
-w1753062163
-8rtl/peripherals/rom.v
-Frtl/peripherals/rom.v
-L0 1
-R4
-r1
-!s85 0
-31
-!s108 1753062196.000000
-!s107 rtl/peripherals/rom.v|
-!s90 -reportprogress|300|rtl/peripherals/rom.v|
-!i113 1
-R7
-n@rom
-vrom_tb
-!s110 1753062203
-!i10b 1
-!s100 GJJ>ZbVVWZjQX5lTdWELL1
-IP7iRc:Zi5W_Y<Yfg53cNY1
-R1
-R0
-w1753062150
-R8
-R9
-L0 2
-R4
-r1
-!s85 0
-31
-!s108 1753062203.000000
-R10
 R11
-!i113 1
+vRom
+R1
+R23
+DXx4 work 11 rom_sv_unit 0 22 JfnL8f_5c@GgQGLooi49e3
+R3
+r1
+!s85 0
+31
+!i10b 1
+!s100 MD@;JX_UhRP5ceAb]DGmf0
+ISU<g^modKN:CIPFNeoPAb1
+!s105 rom_sv_unit
+S1
+R0
+Z28 w1753140744
+Z29 8rtl/peripherals/rom.sv
+Z30 Frtl/peripherals/rom.sv
+L0 4
 R7
+Z31 !s108 1753140746.000000
+Z32 !s107 rtl/peripherals/rom.sv|
+Z33 !s90 -reportprogress|300|rtl/peripherals/rom.sv|
+!i113 1
+R11
+n@rom
+Xrom_sv_unit
+R1
+R23
+VJfnL8f_5c@GgQGLooi49e3
+r1
+!s85 0
+31
+!i10b 1
+!s100 Fa;nz4^LAJ[;oB1]TKYSg1
+IJfnL8f_5c@GgQGLooi49e3
+!i103 1
+S1
+R0
+R28
+R29
+R30
+L0 1
+R7
+R31
+R32
+R33
+!i113 1
+R11
+vrom_tb
+R1
+!s110 1753137036
+!i10b 1
+!s100 >A9^9Xje8B^1F_KH8HMoP3
+IN=a]HjWk_l82oNz];3i4B1
+R3
+!s105 rom_tb_sv_unit
+S1
+R0
+w1753136654
+8tests/unit_tests/rom_tb.sv
+Ftests/unit_tests/rom_tb.sv
+L0 1
+R7
+r1
+!s85 0
+31
+!s108 1753137036.000000
+!s107 tests/unit_tests/rom_tb.sv|
+!s90 -reportprogress|300|tests/unit_tests/rom_tb.sv|
+!i113 1
+R11
 vtestbench
 !s110 1752971543
 !i10b 1
 !s100 <hglcJ;k3HJ2H9SoIWVWQ2
 I]NIRC2ZA3_i1zbJSNK5dL1
-R1
+R3
 R0
 w1752970292
-R2
-R3
+R24
+R25
 L0 20
-R4
+R7
 r1
 !s85 0
 31
 !s108 1752971543.000000
-R5
-R6
+R26
+R27
 !i113 1
-R7
+R11
