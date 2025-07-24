@@ -3,9 +3,7 @@ import ctrl::CtrlSig;
 
 module DataPath (
 	input clk,
-	input reg_wr_en,
 	input [11:0] operands,
-	input AluCmd alu_cmd,
 	input CtrlSig ctrl_sig
 );
 
@@ -32,7 +30,7 @@ module DataPath (
 
 	
 	// register file wirings
-	assign wr_en = reg_wr_en;
+	assign wr_en = ctrl_sig.reg_wr_en;
 	assign dst_id = operands[11:8];
 	assign src1_id = operands[7:4];
 	assign src2_id = operands[3:0];
@@ -40,7 +38,7 @@ module DataPath (
 
 	// ula wirings
  	assign n = operands[3:0];
- 	assign cmd = alu_cmd;
+ 	assign cmd = ctrl_sig.alu_cmd;
 
  	assign a = src1_out;
  	assign b = src2_out;

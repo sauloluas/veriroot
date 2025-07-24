@@ -3,7 +3,6 @@ module dp_tb();
 	import ctrl::CtrlSig;
 
 	logic clk = 0;
-	logic reg_wr_en;
 	logic [11:0] operands;
 	AluCmd alu_cmd;
 	CtrlSig ctrl_sig;
@@ -14,7 +13,7 @@ module dp_tb();
 
 	initial begin
 		// testing init instruction
-		reg_wr_en <= 1;
+		ctrl_sig.reg_wr_en <= 1;
 		operands <= {4'h1, 8'd20};
 		ctrl_sig.dst_in_sel <= 1;
 		#10;
