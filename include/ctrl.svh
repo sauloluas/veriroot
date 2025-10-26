@@ -8,6 +8,8 @@ package ctrl;
 		logic reg_wr_en;
 		// Selects the operation in the alu
 		AluCmd alu_cmd;
+
+		logic dmem_en;
 	} CtrlSig;
 
 endpackage : ctrl

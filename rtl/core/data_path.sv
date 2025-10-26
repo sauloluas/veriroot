@@ -4,7 +4,9 @@ import ctrl::CtrlSig;
 module DataPath (
 	input clk,
 	input [11:0] operands,
-	input CtrlSig ctrl_sig
+	input CtrlSig ctrl_sig,
+	input [7:0] dmem_out,
+	output DMemCtrl dmem_ctrl
 );
 
 	// rf

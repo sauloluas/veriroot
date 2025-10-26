@@ -1,9 +1,12 @@
 import defs::*;
 import ctrl::CtrlSig;
+import dmem::DMemCtrl;
 
 module BloodyRoot (
 	input Instruction inst,
-	input clk
+	input clk,
+	input [7:0] dmem_out,
+	output DMemCtrl dmem_ctrl
 );
 
 	Opcode opcode;

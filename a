@@ -1,0 +1,67 @@
+
+
+entry:.
+	r'Z => [d0]
+	d1 => r'A
+	r'A => [d1]
+	d2 => r'I
+	d-64 => r'A
+	r'C <= d-1
+	r'U <= d1
+
+for:. 
+	r'I + r'A => r'B
+	?- r'B ::body
+	::end
+
+body:.
+	r'E <= r'I + r'C
+	r'F <= r'E + r'C
+	r'G <= [r'E]
+	r'H <= [r'F]
+	r'T <= r'G + r'H
+	r'T => [r'I]
+	r'I <= r'I + r'U
+
+end:.
+
+
+
+static int fib[64];
+
+fib[0] = 0;
+fib[1] = 1;
+
+for (int i = 2; i < 64 ; i++) {
+	fib[i] = fib[i-1] + fib[i-2];
+}
+
+
+
+<|static|>
+x0 = 0
+x1 = 1
+
+
+<|routine|>
+entry:.
+	init --i d2
+	init --a d-64
+	init --o d1
+
+for:.
+	add --b --a --i
+	wn --b ::then
+	lp ::end
+
+then:.
+	ftch --c --i d-1
+	ftch --d --i d-2
+	add	--e --c --d
+	send --e --i d0
+
+	add --i --i --o
+	lp ::for
+
+end:.
+	halt
