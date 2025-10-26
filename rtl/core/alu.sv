@@ -12,10 +12,10 @@ module Alu #(
 
 	always_comb begin
 		case (cmd)
-			ADD: x <= a + b;
-			NAND: x <= ~(a & b);
-			SHFT: x <= n.flag ? a >> n.shamt : a << n.shamt;
-			default: x <= 'x;
+			ADD: assign x = a + b;
+			NAND: assign x = ~(a & b);
+			SHFT: assign x = n.flag ? a >> n.shamt : a << n.shamt;
+			default: assign x = 'x;
 		endcase
 	end
 
@@ -34,3 +34,9 @@ Esse é um estudo que exige uma análise de temporização, consumo de
 das outras funções implementadas nativamente para a Ula, portanto, creio que
 deva ser mantido sobre supervisão.
 */
+
+
+
+
+
+

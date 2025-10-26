@@ -1,0 +1,1 @@
+verilator --cc include/* rtl/peripherals/* rtl/core/alu.sv rtl/core/control_path.sv rtl/core/counter_register.v rtl/core/register_file.v rtl/core/data_path.sv rtl/core/core.sv rtl/top.sv --exe tests/tb_system.cpp --build --trace --top Top

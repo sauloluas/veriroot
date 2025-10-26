@@ -13,7 +13,7 @@ module Top (input clk);
 	Ram dmem (
 		.clk(clk),
 		.dmem_ctrl(dmem_ctrl),
-		.data_out(dmem_out),
+		.data_out(dmem_out)
 	);
 	Rom imem (
 		.clk(clk),
