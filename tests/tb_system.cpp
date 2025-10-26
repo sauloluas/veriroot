@@ -12,16 +12,12 @@ int main() {
 	VTop* top = new VTop;
 	VerilatedVcdC* vcd = new VerilatedVcdC;
 	top->trace(vcd, 99);
-<<<<<<< Updated upstream
-	vcd->open("obj_dir/waves/system.vcd");
-=======
-
+  
   if (!fs::exists("obj_dir/waves/")) {
     fs::create_directories("obj_dir/waves/");
   }
 
 	vcd->open("obj_dir/waves/waveform.vcd");
->>>>>>> Stashed changes
 
 	top->clk = 0;
 
