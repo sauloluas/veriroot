@@ -17,7 +17,7 @@ int main() {
     fs::create_directories("obj_dir/waves/");
   }
 
-	vcd->open("obj_dir/waves/waveform.vcd");
+	vcd->open("obj_dir/waves/system.vcd");
 
 	top->clk = 0;
 

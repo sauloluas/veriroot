@@ -1,18 +1,18 @@
 module Top (input clk);
 	import defs::Instruction;
-	import dmem::DMemCtrl;
+	import dmem::DMemIn;
 
 	Instruction inst;
 	logic load = 0;
 	logic [7:0] ip_data = 'x;
 	logic [7:0] imem_addr;
-	DMemCtrl dmem_ctrl;
+	DMemIn dmem_in;
 	logic [7:0] dmem_out;
 
 	BloodyRoot br (.*);
 	Ram dmem (
 		.clk(clk),
-		.dmem_ctrl(dmem_ctrl),
+		.dmem_in(dmem_in),
 		.data_out(dmem_out)
 	);
 	Rom imem (

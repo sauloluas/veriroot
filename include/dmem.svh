@@ -4,6 +4,6 @@ package dmem;
 		logic en;
 		logic [7:0] addr;
 		logic [7:0] in;
-	} DMemCtrl;
+	} DMemIn;
 
 endpackage : dmem

@@ -6,7 +6,7 @@ module DataPath (
 	input [11:0] operands,
 	input CtrlSig ctrl_sig,
 	input [7:0] dmem_out,
-	output DMemCtrl dmem_ctrl
+	output DMemIn dmem_in
 );
 
 	// rf
@@ -46,5 +46,8 @@ module DataPath (
  	assign b = src2_out;
  	assign dst_in = ctrl_sig.dst_in_sel ? imm : x;
 
+ 	assign dmem_in.en = ctrl_sig.dmem_en;
+ 	assign dmem_in.in = src2_out;
+ 	assign dmem_in.addr = operands[11:4];
 
 endmodule

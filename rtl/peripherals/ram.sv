@@ -1,11 +1,11 @@
-import dmem::DMemCtrl;
+import dmem::DMemIn;
 
 module Ram #(
 	parameter D = 8,
 	parameter A = 8
 ) (
 	input clk,
-	DMemCtrl dmem_ctrl,
+	DMemIn dmem_in,
 	output [D-1:0] data_out
 );
 
@@ -13,10 +13,10 @@ module Ram #(
 
 	initial $readmemh("bootloader/data.hex", mem_array);
 
-	assign data_out = mem_array[dmem_ctrl.addr];
+	assign data_out = mem_array[dmem_in.addr];
 
 	always @ (posedge clk) 
-		if (dmem_ctrl.en)
-			mem_array[dmem_ctrl.addr] <= dmem_ctrl.in;
+		if (dmem_in.en)
+			mem_array[dmem_in.addr] <= dmem_in.in;
 
 endmodule
