@@ -1,5 +1,4 @@
-./obj_dir/
-./obj_dir/waves/
+obj_dir/**
 
-!./obj_dir/waves/.gitkeep
-
+!obj_dir/waves/
+!obj_dir/waves/.gitkeep
