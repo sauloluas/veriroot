@@ -9,7 +9,7 @@ int main() {
 	VTop* top = new VTop;
 	VerilatedVcdC* vcd = new VerilatedVcdC;
 	top->trace(vcd, 99);
-	vcd->open("waveform.vcd");
+	vcd->open("obj_dir/waves/system.vcd");
 
 	top->clk = 0;
 
