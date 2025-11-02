@@ -1,19 +1,5 @@
 #!/usr/bin/env bash
 
-verilator --build --trace \
-  --top Top \
-  --exe tests/tb_system.cpp \
-  --cc include/* \
-		rtl/peripherals/* \
-		rtl/core/alu.sv \
-		rtl/core/control_path.sv \
-		rtl/core/counter_register.v \
-		rtl/core/register_file.v \
-		rtl/core/data_path.sv \
-		rtl/core/core.sv \
-		rtl/top.sv
-
-./obj_dir/VTop
-
-gtkwave obj_dir/waves/system.vcd
-
+cmake --build cmake-build-debug \
+  && ./cmake-build-debug/veriroot "${1:-system}" \
+  && gtkwave obj_dir/waves/system.vcd
