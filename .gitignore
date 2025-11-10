@@ -1,4 +1,5 @@
 .idea/
+cmake-build-debug/
 
 obj_dir/**
 ~$*.xls*
