@@ -9,6 +9,7 @@ include_directories(
         ${CMAKE_SOURCE_DIR}/obj_dir
         ${CMAKE_SOURCE_DIR}/include
         ${CMAKE_SOURCE_DIR}/tests
+        ${CMAKE_SOURCE_DIR}/tests/unit_tests
         /usr/share/verilator/include
         /usr/share/verilator/include/vltstd
 )

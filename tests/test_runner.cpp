@@ -3,6 +3,7 @@
 #include "runner/TestRegistry.h"
 
 #include "SystemTB.h"
+#include "AluTB.h"
 
 int main(int argc, char **argv) {
     if (argc < 2) {

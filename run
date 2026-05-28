@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+target="${1:-system}"
+
 cmake --build cmake-build-debug \
-  && ./cmake-build-debug/veriroot "${1:-system}" \
-  && gtkwave obj_dir/waves/system.vcd
+  && ./cmake-build-debug/veriroot "$target" \
+  && gtkwave obj_dir/waves/"$target".vcd
