@@ -16,12 +16,19 @@ int main(int argc, char **argv) {
     std::unique_ptr<ITest> tb = TestRegistry::create(testName);
 
     if (!tb) {
-        std::cout << "Test not found";
+        std::cout << "Test not found: " << testName << "\n";
         return 1;
     }
 
     tb->setUp();
-    tb->run();
+
+    try {
+        tb->run();
+    } catch (...) {
+        tb->tearDown();
+        return 1;
+    }
+
     tb->tearDown();
 
     return 0;
