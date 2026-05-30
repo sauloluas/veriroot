@@ -5,8 +5,38 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# --------------------------------------------------------------------------
+# Função para verilatar um módulo como top-level independente.
+# Uso: verilate_module(NomeDoModulo arquivo1.sv arquivo2.sv ...)
+# Gera em obj_dir/<NomeDoModulo>/ e registra o target verilate_<NomeDoModulo>.
+# --------------------------------------------------------------------------
+function(verilate_module MODULE_NAME)
+    set(OUTPUT_DIR ${CMAKE_SOURCE_DIR}/obj_dir/${MODULE_NAME})
+    set(OUTPUT_CPP ${OUTPUT_DIR}/V${MODULE_NAME}.cpp)
+
+    add_custom_command(
+            OUTPUT ${OUTPUT_CPP}
+            COMMAND verilator --cc --trace
+            --top-module ${MODULE_NAME}
+            -Mdir ${OUTPUT_DIR}
+            -I${CMAKE_SOURCE_DIR}/include
+            ${ARGN}
+            DEPENDS ${ARGN}
+            COMMENT "Running Verilator for ${MODULE_NAME}..."
+    )
+
+    add_custom_target(verilate_${MODULE_NAME} DEPENDS ${OUTPUT_CPP})
+
+    include_directories(${OUTPUT_DIR})
+
+    set_property(GLOBAL APPEND PROPERTY VERILATED_MODULE_DIRS ${OUTPUT_DIR})
+    set_property(GLOBAL APPEND PROPERTY VERILATE_TARGETS verilate_${MODULE_NAME})
+endfunction()
+
+# --------------------------------------------------------------------------
+# Includes base
+# --------------------------------------------------------------------------
 include_directories(
-        ${CMAKE_SOURCE_DIR}/obj_dir
         ${CMAKE_SOURCE_DIR}/include
         ${CMAKE_SOURCE_DIR}/tests
         ${CMAKE_SOURCE_DIR}/tests/unit_tests
@@ -15,41 +45,38 @@ include_directories(
 )
 
 # --------------------------------------------------------------------------
-# Arquivos HDL e geração automática de código com Verilator
+# Módulos verilados
 # --------------------------------------------------------------------------
-file(GLOB VERILOG_SOURCES
+file(GLOB ALL_RTL_SOURCES
         ${CMAKE_SOURCE_DIR}/include/*.svh
         ${CMAKE_SOURCE_DIR}/rtl/peripherals/*.sv
         ${CMAKE_SOURCE_DIR}/rtl/core/*.sv
         ${CMAKE_SOURCE_DIR}/rtl/core/*.v
         ${CMAKE_SOURCE_DIR}/rtl/top.sv
 )
-set(VERILATED_OUTPUT_DIR ${CMAKE_SOURCE_DIR}/obj_dir)
 
-# Chama o Verilator
-add_custom_command(
-        OUTPUT ${VERILATED_OUTPUT_DIR}/VTop.cpp
-        COMMAND verilator --cc --trace
-        --top-module Top
-        -Mdir ${VERILATED_OUTPUT_DIR}
-        -I${CMAKE_SOURCE_DIR}/include
-        ${VERILOG_SOURCES}
-        DEPENDS ${VERILOG_SOURCES}
-        COMMENT "🏗️  Running Verilator to regenerate C++ model..."
+verilate_module(Top ${ALL_RTL_SOURCES})
+
+verilate_module(Alu
+        ${CMAKE_SOURCE_DIR}/include/alu.svh
+        ${CMAKE_SOURCE_DIR}/rtl/core/alu.sv
 )
 
-# Define o alvo que só gera o C++ (sem compilar o resto)
-add_custom_target(verilate
-        DEPENDS ${VERILATED_OUTPUT_DIR}/VTop.cpp
-)
+# --------------------------------------------------------------------------
+# Meta-target que verilata todos os módulos de uma vez
+# --------------------------------------------------------------------------
+get_property(ALL_VERILATE_TARGETS GLOBAL PROPERTY VERILATE_TARGETS)
+add_custom_target(verilate DEPENDS ${ALL_VERILATE_TARGETS})
 
 # --------------------------------------------------------------------------
 # Compilar o simulador (C++ + Testes)
 # --------------------------------------------------------------------------
-file(GLOB VERILATOR_SOURCES
-        CONFIGURE_DEPENDS
-        ${VERILATED_OUTPUT_DIR}/*.cpp
-)
+get_property(ALL_VERILATED_DIRS GLOBAL PROPERTY VERILATED_MODULE_DIRS)
+set(VERILATOR_SOURCES "")
+foreach(DIR ${ALL_VERILATED_DIRS})
+    file(GLOB DIR_SOURCES CONFIGURE_DEPENDS ${DIR}/*.cpp)
+    list(APPEND VERILATOR_SOURCES ${DIR_SOURCES})
+endforeach()
 
 file(GLOB TEST_SOURCES
         CONFIGURE_DEPENDS
@@ -68,7 +95,6 @@ add_executable(veriroot
         ${TEST_SOURCES}
 )
 
-# Garante que o código do Verilator seja gerado antes da compilação
 add_dependencies(veriroot verilate)
 
 # --------------------------------------------------------------------------
@@ -77,12 +103,18 @@ add_dependencies(veriroot verilate)
 find_package(Threads REQUIRED)
 target_link_libraries(veriroot PRIVATE Threads::Threads)
 
-target_compile_options(veriroot PRIVATE -Wall -Wextra -O2)
+target_compile_options(veriroot PRIVATE
+        -Wall -Wextra
+        $<$<CONFIG:Debug>:-O0 -g>
+        $<$<CONFIG:Release>:-O2>
+)
 
 # --------------------------------------------------------------------------
 # Mensagem final para o usuário
 # --------------------------------------------------------------------------
-message(STATUS "✅ CMake configured successfully.")
+message(STATUS "CMake configured successfully.")
 message(STATUS "Targets available:")
-message(STATUS "  - verilate : gera código C++ a partir do HDL")
-message(STATUS "  - veriroot : compila e roda os testes (depende do verilate)")
+message(STATUS "  verilate         — verilata todos os módulos")
+message(STATUS "  verilate_Top     — verilata apenas o Top")
+message(STATUS "  verilate_Alu     — verilata apenas a Alu")
+message(STATUS "  veriroot         — compila e roda os testes")

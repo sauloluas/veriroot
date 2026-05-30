@@ -1,12 +1,34 @@
 #pragma once
 
-#include "VTop.h"
+#include "VAlu.h"
 #include "runner/TestBase.h"
 #include "runner/TestRegister.h"
 
 #include <random>
 
-class AluTB : public TestBase<VTop>
+#define ALU_N(flag, shamt) (((flag << 3) | shamt) & 0x0F)
+#define DONT_CARE8 (uint8_t)0b00000000
+
+enum AluCmd : uint8_t
+{
+    DC = 0b11,
+    ADD = 0b00,
+    NAND = 0b01,
+    SHFT = 0b10,
+};
+
+typedef struct Immed
+{
+    uint8_t flag : 1;
+    uint8_t shamt : 3;
+
+    [[nodiscard]] uint8_t to_bits() const
+    {
+        return static_cast<uint8_t>(((flag << 3) | shamt) & 0x0F);
+    }
+} Immed;
+
+class AluTB : public TestBase<VAlu>
 {
 public:
     AluTB() : TestBase("alu")
@@ -15,25 +37,79 @@ public:
 
     void run() override
     {
-        dut->clk = 0;
+        this->add();
+        this->step();
 
-        for (int i = 0; i < 30; i++)
-        {
-            std::random_device rd;
+        this->nand();
+        this->step();
 
-            std::mt19937 gen(rd());
+        this->shift_left();
+        this->step();
 
-            std::uniform_real_distribution distr(0.0, 1.0);
+        this->shift_right();
+        this->step();
+    }
 
-            if (distr(gen) > 0.5)
-            {
-                dut->clk = !dut->clk;
-            }
+    void add() const
+    {
+        dut->a = 6;
+        dut->b = 4;
+        dut->cmd = ADD;
 
-            dut->eval();
-            vcd->dump(Verilated::time());
-            Verilated::timeInc(1);
-        }
+        dut->eval();
+
+        assert(dut->x == 10);
+    }
+
+    void nand() const
+    {
+        dut->a = 0b00000101;
+        dut->b = 0b00000011;
+        dut->cmd = NAND;
+
+        dut->eval();
+
+        assert(dut->x == 0b11111110);
+    }
+
+    void shift_left() const
+    {
+        dut->a = 0b00000010;
+        dut->b = DONT_CARE8;
+        dut->cmd = SHFT;
+
+        constexpr Immed n{
+            .flag = 0b0, // false
+            .shamt = 0b010,
+        };
+
+        dut->n = n.to_bits();
+
+        assert(dut->n == 0b0010);
+
+        dut->eval();
+
+        assert(dut->x == 0b00001000);
+    }
+
+    void shift_right() const
+    {
+        dut->a = 0b00001000;
+        dut->b = DONT_CARE8;
+        dut->cmd = SHFT;
+
+        constexpr Immed n{
+            .flag = 0b1, // true
+            .shamt = 0b010,
+        };
+
+        dut->n = n.to_bits();
+
+        assert(dut->n == 0b1010);
+
+        dut->eval();
+
+        assert(dut->x == 0b00000010);
     }
 };
 
