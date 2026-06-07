@@ -48,6 +48,9 @@ public:
 
         this->shift_right();
         this->step();
+
+        this->mult();
+        this->step();
     }
 
     void add() const
@@ -110,6 +113,63 @@ public:
         dut->eval();
 
         assert(dut->x == 0b00000010);
+    }
+
+    void mult() const
+    {
+        int cycles = 0;
+
+        uint8_t a = 0b00000110;
+        uint8_t b = 0b00000101;
+
+        uint8_t result = 0;
+
+        while (b != 0)
+        {
+            if (b & 1)
+            {
+                // result += a;
+                dut->a = result;
+                dut->b = a;
+
+                dut->cmd = ADD;
+
+                dut->eval();
+                cycles++;
+
+                result = dut->x;
+            }
+
+            /// a <<= 1
+            dut->a = a;
+
+            Immed n{.flag = 0b0, .shamt = 0b01};
+
+            dut->cmd = SHFT;
+            dut->n = n.to_bits();
+
+            dut->eval();
+            cycles++;
+
+            a = dut->x;
+
+            /// b >>= 1
+            dut->a = b;
+
+            n = {.flag = 0b1, .shamt = 0b01};
+
+            dut->cmd = SHFT;
+            dut->n = n.to_bits();
+
+            dut->eval();
+            cycles++;
+
+            b = dut->x;
+        }
+
+        std::printf("mult: %d cycles\n", cycles);
+
+        assert(result == 0b00011110);
     }
 };
 
