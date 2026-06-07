@@ -1,0 +1,39 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y cmake verilator
+
+      - name: Configure
+        run: cmake -B cmake-build-debug -DCMAKE_BUILD_TYPE=Debug
+
+      - name: Run tests
+        env:
+          EVENT: ${{ github.event_name }}
+          LABELS: ${{ toJson(github.event.pull_request.labels.*.name) }}
+        run: |
+          if [ "$EVENT" = "pull_request" ] && [ "$LABELS" != "[]" ]; then
+            suites=$(echo "$LABELS" | jq -r '.[]')
+            exit_code=0
+
+            for suite in $suites; do
+              ./run "$suite" || exit_code=$?
+            done
+
+            exit $exit_code
+          else
+            ./run
+          fi
