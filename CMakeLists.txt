@@ -106,6 +106,12 @@ target_link_libraries(veriroot PRIVATE Threads::Threads)
 
 target_include_directories(veriroot SYSTEM PRIVATE /usr/share/verilator/include)
 
+set_source_files_properties(
+        ${VERILATOR_SOURCES}
+        ${VERILATOR_RUNTIME}
+        PROPERTIES COMPILE_FLAGS "-w"
+)
+
 target_compile_options(veriroot PRIVATE
         -Wall -Wextra
         $<$<CONFIG:Debug>:-O0 -g>
