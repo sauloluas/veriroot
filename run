@@ -1,7 +1,40 @@
 #!/usr/bin/env bash
 
-target="${1:-system}"
+target="$1"
+show=""
 
-cmake --build cmake-build-debug \
-  && ./cmake-build-debug/veriroot "$target" \
-  && gtkwave obj_dir/waves/"$target".vcd
+for arg in "${@:2}"; do
+  case "$arg" in
+    --fail) show="fail" ;;
+    --pass) show="pass" ;;
+    --all)  show="all"  ;;
+  esac
+done
+
+output_cmake=$(cmake --build cmake-build-debug --target verilate)
+exit_code=$?
+
+if (( $exit_code != 0 )); then
+  echo "$output_cmake"
+  exit $exit_code
+fi
+
+output_cmake=$(cmake --build cmake-build-debug --target veriroot)
+exit_code=$?
+
+if (( $exit_code != 0 )); then
+  echo "$output_cmake"
+  exit $exit_code
+fi
+
+./cmake-build-debug/veriroot ${target:+"$target"}
+
+exit_code=$?
+
+if [ -n "$show" ]; then
+  for vcd in "obj_dir/waves/$show/${target}"_*.vcd; do
+    [ -f "$vcd" ] && gtkwave "$vcd" > /dev/null 2>&1 &
+  done
+fi
+
+exit $exit_code

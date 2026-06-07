@@ -1,23 +1,39 @@
 #pragma once
 
 #include <string>
+#include <vector>
+#include <functional>
 #include <filesystem>
+#include <iostream>
+#include <stdexcept>
 #include <utility>
 #include <verilated_vcd_c.h>
 #include "verilated.h"
 #include "ITest.h"
 
+#define CHECK(cond) \
+    do { if (!(cond)) throw std::runtime_error("CHECK failed: " #cond); } while (0)
+
 template <typename TDut>
 class TestBase : public ITest
 {
+    struct TestCase
+    {
+        std::string name;
+        std::function<void()> fn;
+    };
+
+    std::vector<TestCase> testCases;
+    mutable uint64_t simTime = 0;
+    mutable int clocks_count_ = 0;
+
 protected:
     std::string testName;
     std::unique_ptr<TDut> dut;
     std::unique_ptr<VerilatedVcdC> vcd;
 
 public:
-    explicit TestBase(std::string testName) : testName(std::move(testName)), dut(std::make_unique<TDut>()),
-                                              vcd(std::make_unique<VerilatedVcdC>())
+    explicit TestBase(std::string testName) : testName(std::move(testName))
     {
     }
 
@@ -27,28 +43,99 @@ public:
 
         Verilated::traceEverOn(true);
 
-        dut->trace(vcd.get(), 99);
-
-        if (!fs::exists("obj_dir/waves/"))
+        for (const std::string sub : {"all", "pass", "fail"})
         {
-            fs::create_directories("obj_dir/waves/");
+            fs::create_directories("obj_dir/waves/" + sub);
+        }
+    }
+
+    void run() override
+    {
+        namespace fs = std::filesystem;
+
+        bool anyFailed = false;
+
+        std::cout << ":::::::: " << testName << " ::::::::\n";
+
+        for (auto& tc : testCases)
+        {
+            std::cout << "running `" << tc.name << "`\n";
+
+            std::string filename = testName + "_" + tc.name + ".vcd";
+            std::string allPath = "obj_dir/waves/all/" + filename;
+
+            fs::remove(allPath);
+            fs::remove("obj_dir/waves/pass/" + filename);
+            fs::remove("obj_dir/waves/fail/" + filename);
+
+            resetDut();
+            vcd->open(allPath.c_str());
+
+            try
+            {
+                tc.fn();
+                this->dump();
+                vcd->close();
+
+                fs::create_symlink("../all/" + filename, "obj_dir/waves/pass/" + filename);
+                std::cout << "[PASS] " << tc.name << "\n\n";
+            }
+            catch (const std::exception& e)
+            {
+                this->dump();
+                vcd->close();
+
+                anyFailed = true;
+
+                fs::create_symlink("../all/" + filename, "obj_dir/waves/fail/" + filename);
+                std::cerr << "[FAIL] " << tc.name << ": " << e.what() << "\n\n";
+            }
         }
 
-        std::string fileName = "obj_dir/waves/" + this->testName + ".vcd";
-
-        vcd->open(fileName.c_str());
+        if (anyFailed)
+            throw std::runtime_error("one or more tests failed");
     }
 
     void tearDown() override
     {
-        vcd->dump(Verilated::time());
-        dut->final();
+        if (dut) dut->final();
     }
 
 protected:
-    void step() const
+    void addTest(const std::string& name, std::function<void()> fn)
     {
-        vcd->dump(Verilated::time());
-        Verilated::timeInc(1);
+        testCases.push_back({name, std::move(fn)});
+    }
+
+    void eval() const
+    {
+        dut->eval();
+        this->dump();
+
+        simTime++;
+        clocks_count_++;
+    }
+
+    const int& clocks_count() const
+    {
+        return clocks_count_;
+    }
+
+private:
+    void resetDut()
+    {
+        simTime = 0;
+
+        if (dut) dut->final();
+
+        dut = std::make_unique<TDut>();
+        vcd = std::make_unique<VerilatedVcdC>();
+
+        dut->trace(vcd.get(), 99);
+    }
+
+    void dump() const
+    {
+        vcd->dump(simTime);
     }
 };
