@@ -133,7 +133,7 @@ private:
             b = dut->x;
         }
 
-        std::printf("cycles: %d\n", this->clocks_count());
+        std::cout << "cycles: " << this->clocks_count() << "\n";
 
         CHECK(result == 0b00011110);
     }
