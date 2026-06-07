@@ -104,6 +104,8 @@ add_dependencies(veriroot verilate)
 find_package(Threads REQUIRED)
 target_link_libraries(veriroot PRIVATE Threads::Threads)
 
+target_include_directories(veriroot SYSTEM PRIVATE /usr/share/verilator/include)
+
 target_compile_options(veriroot PRIVATE
         -Wall -Wextra
         $<$<CONFIG:Debug>:-O0 -g>
