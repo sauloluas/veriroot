@@ -25,8 +25,13 @@ jobs:
           EVENT: ${{ github.event_name }}
           LABELS: ${{ toJson(github.event.pull_request.labels.*.name) }}
         run: |
+          if echo "$LABELS" | jq -e '.[] | select(. == "skip-ci")' > /dev/null 2>&1; then
+            echo "skip-ci label detected, skipping tests"
+            exit 0
+          fi
+
           if [ "$EVENT" = "pull_request" ] && [ "$LABELS" != "[]" ]; then
-            suites=$(echo "$LABELS" | jq -r '.[]')
+            suites=$(echo "$LABELS" | jq -r '.[] | select(. != "skip-ci")')
             exit_code=0
 
             for suite in $suites; do
