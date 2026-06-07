@@ -11,6 +11,7 @@ jobs:
     if: ${{ github.event_name != 'pull_request' || !contains(github.event.pull_request.labels.*.name, 'skip-ci') }}
     permissions:
       contents: read
+      pull-requests: write
 
     steps:
       - uses: actions/checkout@v4
@@ -48,3 +49,4 @@ jobs:
           report_paths: test-results/*.xml
           detailed_summary: true
           include_passed: true
+          annotate_only: true
