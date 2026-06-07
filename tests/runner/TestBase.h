@@ -25,6 +25,7 @@ class TestBase : public ITest
 
     std::vector<TestCase> testCases;
     mutable uint64_t simTime = 0;
+    mutable int clocks_count_ = 0;
 
 protected:
     std::string testName;
@@ -56,6 +57,8 @@ public:
 
         for (auto& tc : testCases)
         {
+            std::cout << "running `" << tc.name << "`\n";
+
             std::string filename = testName + "_" + tc.name + ".vcd";
             std::string allPath = "obj_dir/waves/all/" + filename;
 
@@ -73,7 +76,7 @@ public:
                 vcd->close();
 
                 fs::create_symlink("../all/" + filename, "obj_dir/waves/pass/" + filename);
-                std::cout << "[PASS] " << tc.name << "\n";
+                std::cout << "[PASS] " << tc.name << "\n\n";
             }
             catch (const std::exception& e)
             {
@@ -83,7 +86,7 @@ public:
                 anyFailed = true;
 
                 fs::create_symlink("../all/" + filename, "obj_dir/waves/fail/" + filename);
-                std::cerr << "[FAIL] " << tc.name << ": " << e.what() << "\n";
+                std::cerr << "[FAIL] " << tc.name << ": " << e.what() << "\n\n";
             }
         }
 
@@ -108,6 +111,12 @@ protected:
         this->dump();
 
         simTime++;
+        clocks_count_++;
+    }
+
+    const int& clocks_count() const
+    {
+        return clocks_count_;
     }
 
 private:
