@@ -44,6 +44,7 @@ module DataPath (
 
  	assign a = src1_out;
  	assign b = src2_out;
+ 	// TODO: EXPAND FLAG BUS
  	assign dst_in = ctrl_sig.dst_in_sel ? imm : x;
 
  	assign dmem_in.en = ctrl_sig.dmem_en;

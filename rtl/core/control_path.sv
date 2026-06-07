@@ -27,6 +27,7 @@ module ControlPath (
 			defs::SHFT: ctrl_sig = '{0, 1, alu::SHFT, 0};
 			defs::INIT: ctrl_sig = '{1, 1, alu::DC, 0};
 			defs::STOR: ctrl_sig = '{'x, 0, alu::DC, 1};
+			//defs::LOAD: ctrl_sig = '{};
 			default: ctrl_sig = 'x;
 		endcase
 	end

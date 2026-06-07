@@ -8,16 +8,22 @@ package defs;
 		WHZR = 4'h8,
 		WHNG = 4'h9,
 		INIT = 4'hA,
-		LOAD = 4'hB,
-		STOR = 4'hC,
-		FTCH = 4'hD,
-		SEND = 4'hE,
-		HALT = 4'hF
+		FTCH = 4'hB,
+		SEND = 4'hC
 	} Opcode;
 
 	typedef struct packed {
 		Opcode opcode;
 		logic [11:0] operands;
 	} Instruction;
+
+	function logic WriteEnable (Opcode op);
+	    logic wr_en = 0;
+	    case (op)
+			ADD, NAND, SHFT, INIT : wr_en = 1;
+			default : wr_en = 0;
+		endcase
+		return wr_en;
+	endfunction;
 
 endpackage
