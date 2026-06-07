@@ -4,9 +4,6 @@
 #include "runner/TestBase.h"
 #include "runner/TestRegister.h"
 
-#include <random>
-
-#define ALU_N(flag, shamt) (((flag << 3) | shamt) & 0x0F)
 #define DONT_CARE8 (uint8_t)0b00000000
 
 enum AluCmd : uint8_t
@@ -33,92 +30,64 @@ class AluTB : public TestBase<VAlu>
 public:
     AluTB() : TestBase("alu")
     {
+        addTest("add", [this] { test_add(); });
+        addTest("nand", [this] { test_nand(); });
+        addTest("shift_left", [this] { test_shift_left(); });
+        addTest("shift_right", [this] { test_shift_right(); });
+        addTest("mult", [this] { test_mult(); });
     }
 
-    void run() override
-    {
-        this->add();
-        this->step();
-
-        this->nand();
-        this->step();
-
-        this->shift_left();
-        this->step();
-
-        this->shift_right();
-        this->step();
-
-        this->mult();
-        this->step();
-    }
-
-    void add() const
+private:
+    void test_add() const
     {
         dut->a = 6;
         dut->b = 4;
         dut->cmd = ADD;
 
-        dut->eval();
-
-        assert(dut->x == 10);
+        eval();
+        CHECK(dut->x == 10);
     }
 
-    void nand() const
+    void test_nand() const
     {
         dut->a = 0b00000101;
         dut->b = 0b00000011;
         dut->cmd = NAND;
 
-        dut->eval();
-
-        assert(dut->x == 0b11111110);
+        eval();
+        CHECK(dut->x == 0b11111110);
     }
 
-    void shift_left() const
+    void test_shift_left() const
     {
+        constexpr Immed n{.flag = 0b0, .shamt = 0b010};
+
         dut->a = 0b00000010;
         dut->b = DONT_CARE8;
         dut->cmd = SHFT;
 
-        constexpr Immed n{
-            .flag = 0b0, // false
-            .shamt = 0b010,
-        };
-
         dut->n = n.to_bits();
+        eval();
 
-        assert(dut->n == 0b0010);
-
-        dut->eval();
-
-        assert(dut->x == 0b00001000);
+        CHECK(dut->x == 0b00001000);
     }
 
-    void shift_right() const
+    void test_shift_right() const
     {
+        constexpr Immed n{.flag = 0b1, .shamt = 0b010};
+
         dut->a = 0b00001000;
         dut->b = DONT_CARE8;
         dut->cmd = SHFT;
 
-        constexpr Immed n{
-            .flag = 0b1, // true
-            .shamt = 0b010,
-        };
-
         dut->n = n.to_bits();
+        eval();
 
-        assert(dut->n == 0b1010);
-
-        dut->eval();
-
-        assert(dut->x == 0b00000010);
+        CHECK(dut->x == 0b00000010);
     }
 
-    void mult() const
+    void test_mult() const
     {
-        int cycles = 0;
-
         uint8_t a = 0b00000110;
         uint8_t b = 0b00000101;
 
@@ -134,8 +103,7 @@ public:
 
                 dut->cmd = ADD;
 
-                dut->eval();
-                cycles++;
+                eval();
 
                 result = dut->x;
             }
@@ -148,8 +116,7 @@ public:
             dut->cmd = SHFT;
             dut->n = n.to_bits();
 
-            dut->eval();
-            cycles++;
+            eval();
 
             a = dut->x;
 
@@ -161,15 +128,14 @@ public:
             dut->cmd = SHFT;
             dut->n = n.to_bits();
 
-            dut->eval();
-            cycles++;
+            eval();
 
             b = dut->x;
         }
 
-        std::printf("mult: %d cycles\n", cycles);
+        std::printf("%dcycles\n", this->clocks_count());
 
-        assert(result == 0b00011110);
+        CHECK(result == 0b00011110);
     }
 };
 
