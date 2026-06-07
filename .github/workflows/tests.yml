@@ -8,6 +8,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'pull_request' || !contains(github.event.pull_request.labels.*.name, 'skip-ci') }}
 
     steps:
       - uses: actions/checkout@v4
@@ -25,13 +26,8 @@ jobs:
           EVENT: ${{ github.event_name }}
           LABELS: ${{ toJson(github.event.pull_request.labels.*.name) }}
         run: |
-          if echo "$LABELS" | jq -e '.[] | select(. == "skip-ci")' > /dev/null 2>&1; then
-            echo "skip-ci label detected, skipping tests"
-            exit 0
-          fi
-
           if [ "$EVENT" = "pull_request" ] && [ "$LABELS" != "[]" ]; then
-            suites=$(echo "$LABELS" | jq -r '.[] | select(. != "skip-ci")')
+            suites=$(echo "$LABELS" | jq -r '.[]')
             exit_code=0
 
             for suite in $suites; do
