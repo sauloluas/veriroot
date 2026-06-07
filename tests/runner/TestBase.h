@@ -7,8 +7,9 @@
 #include "verilated.h"
 #include "ITest.h"
 
-template<typename TDut>
-class TestBase : public ITest {
+template <typename TDut>
+class TestBase : public ITest
+{
 protected:
     std::string testName;
     std::unique_ptr<TDut> dut;
@@ -16,16 +17,20 @@ protected:
 
 public:
     explicit TestBase(std::string testName) : testName(std::move(testName)), dut(std::make_unique<TDut>()),
-                                              vcd(std::make_unique<VerilatedVcdC>()) {}
+                                              vcd(std::make_unique<VerilatedVcdC>())
+    {
+    }
 
-    void setUp() override {
+    void setUp() override
+    {
         namespace fs = std::filesystem;
 
         Verilated::traceEverOn(true);
 
         dut->trace(vcd.get(), 99);
 
-        if (!fs::exists("obj_dir/waves/")) {
+        if (!fs::exists("obj_dir/waves/"))
+        {
             fs::create_directories("obj_dir/waves/");
         }
 
@@ -34,7 +39,16 @@ public:
         vcd->open(fileName.c_str());
     }
 
-    void tearDown() override {
+    void tearDown() override
+    {
+        vcd->dump(Verilated::time());
         dut->final();
+    }
+
+protected:
+    void step() const
+    {
+        vcd->dump(Verilated::time());
+        Verilated::timeInc(1);
     }
 };
