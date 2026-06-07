@@ -48,6 +48,7 @@ include_directories(
 # Módulos verilados
 # --------------------------------------------------------------------------
 file(GLOB ALL_RTL_SOURCES
+        CONFIGURE_DEPENDS
         ${CMAKE_SOURCE_DIR}/include/*.svh
         ${CMAKE_SOURCE_DIR}/rtl/peripherals/*.sv
         ${CMAKE_SOURCE_DIR}/rtl/core/*.sv
