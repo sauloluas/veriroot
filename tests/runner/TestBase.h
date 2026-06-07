@@ -4,6 +4,7 @@
 #include <vector>
 #include <functional>
 #include <filesystem>
+#include <fstream>
 #include <iostream>
 #include <stdexcept>
 #include <utility>
@@ -21,6 +22,13 @@ class TestBase : public ITest
     {
         std::string name;
         std::function<void()> fn;
+    };
+
+    struct TestResult
+    {
+        std::string name;
+        bool passed;
+        std::string message;
     };
 
     std::vector<TestCase> testCases;
@@ -47,6 +55,8 @@ public:
         {
             fs::create_directories("obj_dir/waves/" + sub);
         }
+
+        fs::create_directories("test-results");
     }
 
     void run() override
@@ -54,6 +64,7 @@ public:
         namespace fs = std::filesystem;
 
         bool anyFailed = false;
+        std::vector<TestResult> results;
 
         std::cout << ":::::::: " << testName << " ::::::::\n";
 
@@ -79,6 +90,7 @@ public:
 
                 fs::create_symlink("../all/" + filename, "obj_dir/waves/pass/" + filename);
                 std::cout << "[PASS] " << tc.name << "\n\n";
+                results.push_back({tc.name, true, ""});
             }
             catch (const std::exception& e)
             {
@@ -89,8 +101,11 @@ public:
 
                 fs::create_symlink("../all/" + filename, "obj_dir/waves/fail/" + filename);
                 std::cerr << "[FAIL] " << tc.name << ": " << e.what() << "\n\n";
+                results.push_back({tc.name, false, e.what()});
             }
         }
+
+        writeJUnitXml(results);
 
         if (anyFailed)
             throw std::runtime_error("one or more tests failed");
@@ -137,5 +152,40 @@ private:
     void dump() const
     {
         vcd->dump(simTime);
+    }
+
+    void writeJUnitXml(const std::vector<TestResult>& results) const
+    {
+        int failures = 0;
+        for (const auto& r : results)
+            if (!r.passed) failures++;
+
+        std::ofstream f("test-results/" + testName + ".xml");
+
+        f << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        f << "<testsuite name=\"" << testName << "\""
+            << " tests=\"" << results.size() << "\""
+            << " failures=\"" << failures << "\""
+            << " errors=\"0\">\n";
+
+        for (const auto& r : results)
+        {
+            f << "    <testcase name=\"" << r.name << "\""
+                << " classname=\"" << testName << "\"";
+
+            if (r.passed)
+            {
+                f << "/>\n";
+            }
+            else
+            {
+                f << ">\n";
+                f << "        <failure message=\"" << r.message << "\">"
+                    << r.message << "</failure>\n";
+                f << "    </testcase>\n";
+            }
+        }
+
+        f << "</testsuite>\n";
     }
 };
