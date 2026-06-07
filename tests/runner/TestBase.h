@@ -55,6 +55,8 @@ public:
 
         bool anyFailed = false;
 
+        std::cout << ":::::::: " << testName << " ::::::::\n";
+
         for (auto& tc : testCases)
         {
             std::cout << "running `" << tc.name << "`\n";

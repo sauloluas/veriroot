@@ -19,8 +19,8 @@ public:
         registry()[name] = std::move(fn);
     }
 
-    static std::unique_ptr<ITest> create(std::string& name) {
-        auto it = registry().find(name);
+    static std::unique_ptr<ITest> create(const std::string& name) {
+        const auto it = registry().find(name);
 
         if (it == registry().end()) {
             std::cerr << "Test not found: " << name << std::endl;

@@ -5,26 +5,24 @@
 #include "SystemTB.h"
 #include "AluTB.h"
 
-int main(int argc, char **argv) {
-    if (argc < 2) {
-        std::cout << "Usage: " << argv[0] << " <test_name>\n";
-        return 1;
-    }
+static int runTest(const std::string& testName)
+{
+    const std::unique_ptr<ITest> tb = TestRegistry::create(testName);
 
-    std::string testName = argv[1];
-
-    std::unique_ptr<ITest> tb = TestRegistry::create(testName);
-
-    if (!tb) {
+    if (!tb)
+    {
         std::cout << "Test not found: " << testName << "\n";
         return 1;
     }
 
     tb->setUp();
 
-    try {
+    try
+    {
         tb->run();
-    } catch (...) {
+    }
+    catch (...)
+    {
         tb->tearDown();
         return 1;
     }
@@ -32,4 +30,21 @@ int main(int argc, char **argv) {
     tb->tearDown();
 
     return 0;
+}
+
+int main(int argc, char** argv)
+{
+    if (argc < 2)
+    {
+        int exitCode = 0;
+
+        for (auto& [name, _] : TestRegistry::registry())
+        {
+            exitCode |= runTest(name);
+        }
+
+        return exitCode;
+    }
+
+    return runTest(argv[1]);
 }

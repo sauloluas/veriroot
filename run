@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-target="${1:-system}"
+target="$1"
 show=""
 
 for arg in "${@:2}"; do
@@ -27,7 +27,7 @@ if (( $exit_code != 0 )); then
   exit $exit_code
 fi
 
-./cmake-build-debug/veriroot "$target"
+./cmake-build-debug/veriroot ${target:+"$target"}
 
 exit_code=$?
 
