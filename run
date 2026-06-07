@@ -19,6 +19,14 @@ if (( $exit_code != 0 )); then
   exit $exit_code
 fi
 
+output_cmake=$(cmake -B cmake-build-debug 2>&1)
+exit_code=$?
+
+if (( $exit_code != 0 )); then
+  echo "$output_cmake"
+  exit $exit_code
+fi
+
 output_cmake=$(cmake --build cmake-build-debug --target veriroot)
 exit_code=$?
 
