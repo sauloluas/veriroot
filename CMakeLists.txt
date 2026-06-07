@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 3.16)
 project(veriroot LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -48,6 +48,7 @@ include_directories(
 # Módulos verilados
 # --------------------------------------------------------------------------
 file(GLOB ALL_RTL_SOURCES
+        CONFIGURE_DEPENDS
         ${CMAKE_SOURCE_DIR}/include/*.svh
         ${CMAKE_SOURCE_DIR}/rtl/peripherals/*.sv
         ${CMAKE_SOURCE_DIR}/rtl/core/*.sv
@@ -102,6 +103,14 @@ add_dependencies(veriroot verilate)
 # --------------------------------------------------------------------------
 find_package(Threads REQUIRED)
 target_link_libraries(veriroot PRIVATE Threads::Threads)
+
+target_include_directories(veriroot SYSTEM PRIVATE /usr/share/verilator/include)
+
+set_source_files_properties(
+        ${VERILATOR_SOURCES}
+        ${VERILATOR_RUNTIME}
+        PROPERTIES COMPILE_FLAGS "-w"
+)
 
 target_compile_options(veriroot PRIVATE
         -Wall -Wextra
