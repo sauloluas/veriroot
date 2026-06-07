@@ -5,6 +5,15 @@ module Top #(parameter A = 12,           // tamanho do endereço
              parameter I = 4)            // tamanho do id do reg
             (input clk);
 
+    function logic [A-1:0] zero_extend(input logic [7:0] val);
+        logic [A-1:0] tmp;
+        begin
+            tmp = '0;            // zera todos os bits
+            tmp[7:0] = val;      // coloca os 8 bits na parte baixa
+            zero_extend = tmp;
+        end
+    endfunction
+
     // rom
     Instruction inst_mem_array[2**A-1:0];
 	initial $readmemh("bootloader/text.hex", inst_mem_array);
@@ -51,11 +60,12 @@ module Top #(parameter A = 12,           // tamanho do endereço
             NAND : regarray[ra] = ~(reg_b & reg_c);
             SHFT : regarray[ra] = reg_c[7] ? reg_b >> reg_c[6:0] : reg_b << reg_c[6:0];
             INIT : regarray[ra] = operands[7:0];
-            FTCH : regarray[ra] = data_mem_array[reg_b + reg_c];
-            SEND : data_mem_array[reg_b + reg_c] = reg_a;
+            FTCH : regarray[ra] = data_mem_array[zero_extend(reg_b + reg_c)];
+            SEND : data_mem_array[zero_extend(reg_b + reg_c)] = reg_a;
             LEAP : ip = label;
-            WHZR : if (reg_a == 0) ip = label_cond;
-            WHNG : if (reg_a[7] == 1) ip = label_cond;
+            WHZR : if (reg_a == 0) ip += zero_extend(label_cond);
+            WHNG : if (reg_a[7] == 1) ip += zero_extend(label_cond);
+            default : ;
     	endcase
 
 	end

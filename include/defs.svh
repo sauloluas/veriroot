@@ -17,13 +17,4 @@ package defs;
 		logic [11:0] operands;
 	} Instruction;
 
-	function logic WriteEnable (Opcode op);
-	    logic wr_en = 0;
-	    case (op)
-			ADD, NAND, SHFT, INIT : wr_en = 1;
-			default : wr_en = 0;
-		endcase
-		return wr_en;
-	endfunction;
-
 endpackage

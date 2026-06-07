@@ -50,18 +50,10 @@ include_directories(
 file(GLOB ALL_RTL_SOURCES
         CONFIGURE_DEPENDS
         ${CMAKE_SOURCE_DIR}/include/*.svh
-        ${CMAKE_SOURCE_DIR}/rtl/peripherals/*.sv
-        ${CMAKE_SOURCE_DIR}/rtl/core/*.sv
-        ${CMAKE_SOURCE_DIR}/rtl/core/*.v
         ${CMAKE_SOURCE_DIR}/rtl/top.sv
 )
 
 verilate_module(Top ${ALL_RTL_SOURCES})
-
-verilate_module(Alu
-        ${CMAKE_SOURCE_DIR}/include/alu.svh
-        ${CMAKE_SOURCE_DIR}/rtl/core/alu.sv
-)
 
 # --------------------------------------------------------------------------
 # Meta-target que verilata todos os módulos de uma vez
@@ -125,5 +117,4 @@ message(STATUS "CMake configured successfully.")
 message(STATUS "Targets available:")
 message(STATUS "  verilate         — verilata todos os módulos")
 message(STATUS "  verilate_Top     — verilata apenas o Top")
-message(STATUS "  verilate_Alu     — verilata apenas a Alu")
 message(STATUS "  veriroot         — compila e roda os testes")

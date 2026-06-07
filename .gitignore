@@ -8,3 +8,6 @@ obj_dir/**
 
 !obj_dir/waves/
 !obj_dir/waves/.gitkeep
+
+
+**/.fuse_hidden*
