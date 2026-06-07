@@ -43,9 +43,7 @@ jobs:
 
       - name: Publish test report
         if: always()
-        uses: dorny/test-reporter@v1
+        uses: mikepenz/action-junit-report@v4
         with:
-          name: Tests
-          path: test-results/*.xml
-          reporter: java-junit
-          output-to: step-summary
+          report_paths: test-results/*.xml
+          summary: true
