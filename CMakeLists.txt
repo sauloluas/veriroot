@@ -17,6 +17,7 @@ function(verilate_module MODULE_NAME)
     add_custom_command(
             OUTPUT ${OUTPUT_CPP}
             COMMAND verilator --cc --trace
+            --trace-max-array 1024
             --top-module ${MODULE_NAME}
             -Mdir ${OUTPUT_DIR}
             -I${CMAKE_SOURCE_DIR}/include

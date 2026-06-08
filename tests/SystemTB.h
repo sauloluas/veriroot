@@ -16,7 +16,7 @@ public:
     {
         dut->clk = 0;
 
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < 100; i++)
         {
             dut->clk = !dut->clk;
             dut->eval();

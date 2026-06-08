@@ -1,6 +1,6 @@
 import defs::*;
 
-module Top #(parameter A = 12,           // tamanho do endereço
+module Top #(parameter A = 8,           // tamanho do endereço
              parameter D = 8,           // tamanho da palavra
              parameter I = 4)            // tamanho do id do reg
             (input clk);
@@ -14,6 +14,14 @@ module Top #(parameter A = 12,           // tamanho do endereço
         end
     endfunction
 
+    function logic [A-1:0] truncate(input logic [11:0] val);
+        logic [A-1:0] tmp;
+        begin
+            truncate = val[A-1:0];
+        end
+    endfunction
+
+
     // rom
     Instruction inst_mem_array[2**A-1:0];
 	initial $readmemh("bootloader/text.hex", inst_mem_array);
@@ -23,6 +31,7 @@ module Top #(parameter A = 12,           // tamanho do endereço
 	initial $readmemh("bootloader/data.hex", data_mem_array);
 
 	logic [A-1:0] ip = '0;
+	logic [A-1:0] old_ip;
 
     Instruction inst;
 
@@ -46,13 +55,14 @@ module Top #(parameter A = 12,           // tamanho do endereço
 		rb = operands[7:4];
 		rc = operands[3:0];
 
-		reg_a = regarray[ra];
-		reg_b = regarray[rb];
-		reg_c = regarray[rc];
+		reg_a = ra == 0 ? 0 : regarray[ra];
+		reg_b = rb == 0 ? 0 : regarray[rb];
+		reg_c = rc == 0 ? 0 : regarray[rc];
 
 		label = operands;
 		label_cond = operands[7:0];
 
+		old_ip = ip;
 		ip = ip + 1'b1;
 
     	case (opcode)
@@ -62,11 +72,13 @@ module Top #(parameter A = 12,           // tamanho do endereço
             INIT : regarray[ra] = operands[7:0];
             FTCH : regarray[ra] = data_mem_array[zero_extend(reg_b + reg_c)];
             SEND : data_mem_array[zero_extend(reg_b + reg_c)] = reg_a;
-            LEAP : ip = label;
-            WHZR : if (reg_a == 0) ip += zero_extend(label_cond);
-            WHNG : if (reg_a[7] == 1) ip += zero_extend(label_cond);
+            LEAP : ip = truncate(label);
+            WHZR : if (reg_a == 0) ip = old_ip + zero_extend(label_cond);
+            WHNG : if (reg_a[7] == 1) ip = old_ip + zero_extend(label_cond);
             default : ;
     	endcase
+
+        if (ra == 0) regarray[ra] = 0;
 
 	end
 

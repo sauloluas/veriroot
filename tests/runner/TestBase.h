@@ -82,6 +82,7 @@ public:
             fs::remove("obj_dir/waves/fail/" + filename);
 
             resetDut();
+
             vcd->open(allPath.c_str());
 
             std::ostringstream captured;
