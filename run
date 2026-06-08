@@ -11,7 +11,7 @@ for arg in "${@:2}"; do
   esac
 done
 
-output_cmake=$(cmake --build cmake-build-debug --target verilate)
+output_cmake=$(cmake -B cmake-build-debug 2>&1)
 exit_code=$?
 
 if (( $exit_code != 0 )); then
@@ -19,7 +19,7 @@ if (( $exit_code != 0 )); then
   exit $exit_code
 fi
 
-output_cmake=$(cmake -B cmake-build-debug 2>&1)
+output_cmake=$(cmake --build cmake-build-debug --target verilate)
 exit_code=$?
 
 if (( $exit_code != 0 )); then
